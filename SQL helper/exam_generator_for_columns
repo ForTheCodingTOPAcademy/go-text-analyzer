@@ -1,0 +1,47 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+[]names{
+	
+}
+
+func generateAge() int {
+	return rand.Intn(20) + 16
+}
+func generateName(s string) string {
+	return "B:A";
+}
+func generateAdress(s string) string {
+	return "STRKA"
+}
+func generateGender() string {
+	if rand.Intn(2) == 0{
+		if rand.Intn(2) == 0{
+			return "f"
+		}else{
+			return "female"
+		}
+	}else{
+		if rand.Intn(2) == 0{
+			return "m"
+		}else{
+			return "male"
+		}
+	}
+}
+
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	result := "INSERT INTO customers (name, age, adress, gender) VALUES "
+
+	for i := 0; i < 50; i++ {
+		result = fmt.Sprintf(result + "(%v), ", fmt.Sprintf("%v, %v, %v, %v", 1, generateAge(), 1, generateGender()))
+	}
+
+	fmt.Println(result)
+}
