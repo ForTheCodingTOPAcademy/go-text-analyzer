@@ -116,11 +116,17 @@ func main() {
 		low_age_customers := []int{
 			24, 16, 10, 9, 3, 2,
 		}
+		good_id_deleted := []int{
+			29, 30, 31, 32, 33,
+		}
 		for slices.Contains(low_age_customers, customer_id){
-			customer_id = rand.Intn(29) + 1;
+			customer_id = rand.Intn(29) + 1
+		}
+		for slices.Contains(good_id_deleted, good_id){
+			good_id = rand.Intn(47) + 1
 		}
 
-		result = fmt.Sprintf(result + "(%v), ", fmt.Sprintf("%v, %v, %v,", customer_id, good_id, rand.Intn(3) + 1))
+		result = fmt.Sprintf(result + "(%v), ", fmt.Sprintf("%v, %v, %v", customer_id, good_id, rand.Intn(3) + 1))
 	}
 
 	fmt.Println(result)
