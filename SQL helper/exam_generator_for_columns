@@ -92,5 +92,37 @@ func main() {
 	fmt.Println(result)
 }
 
-//Generating goodTypes
+//Generating orders
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"slices"
+	"time"
+)
+
+
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+
+	result := "INSERT INTO orders (customer_id, good_id, good_amount) VALUES "
+
+	for i := 0; i < 85; i++ {
+
+		customer_id := rand.Intn(29) + 1;
+		good_id := rand.Intn(47) + 1
+		low_age_customers := []int{
+			24, 16, 10, 9, 3, 2,
+		}
+		for slices.Contains(low_age_customers, customer_id){
+			customer_id = rand.Intn(29) + 1;
+		}
+
+		result = fmt.Sprintf(result + "(%v), ", fmt.Sprintf("%v, %v, %v,", customer_id, good_id, rand.Intn(3) + 1))
+	}
+
+	fmt.Println(result)
+}
 
