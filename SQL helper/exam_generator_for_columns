@@ -1,3 +1,5 @@
+//Generating customers
+
 package main
 
 import (
@@ -5,18 +7,12 @@ import (
 	"math/rand"
 	"time"
 )
-[]names{
-	
-}
 
 func generateAge() int {
 	return rand.Intn(20) + 16
 }
-func generateName(s string) string {
-	return "B:A";
-}
-func generateAdress(s string) string {
-	return "STRKA"
+func generateAdress(adresses []string) string {
+	return fmt.Sprintln(adresses[rand.Intn(len(adresses))], " д.", rand.Intn(300) + 1) 
 }
 func generateGender() string {
 	if rand.Intn(2) == 0{
@@ -37,11 +33,64 @@ func generateGender() string {
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
+
+	now_names := map[string] int{}
+	now_adresses := map[string] int{}
+
+	female_names := []string{
+		"Полина","Алла", "Жанна", "Виктория", "Илана", "Алина", "София", "Милана", "Алана", "Екатерина", "Елизавета", "Мария", "Марина", "Аврора",
+	}
+	male_names := []string{
+		"Виктор", "Алан", "Анатолий", "Станислав", "Питер", "Пётр", "Андрей", "Александр", "Инал", "Алан", "Михаил", "Тимофей", "Мефодий", "Кирилл",
+	}
+	surname_initials := []string{
+		"А", "Б", "В", "Г", "Д", "E", "Ё", "Ж", "З", "И", "Й", "К", "Л", "М", "Н", "О", "П", "Р", "С", "Т", "У", "Ц", "Ф", "Ш", "Щ",
+	}
+
+	adresses := []string{
+		"г. Владикавказ Улица Пушкина", "г. Владикавказ Улица Цоколаева", "г. Владикавказ Улица Харадцева", "г. Владикавказ Улица Ген. Плиева", "г. Владикавказ Улица Братьев Газдановых", "г. Владикавказ Улица Колка Кесаева", "г. Владикавказ Улица Сталина", "г. Владикавказ Проспект Мира",
+	}
+
+
 	result := "INSERT INTO customers (name, age, adress, gender) VALUES "
 
-	for i := 0; i < 50; i++ {
-		result = fmt.Sprintf(result + "(%v), ", fmt.Sprintf("%v, %v, %v, %v", 1, generateAge(), 1, generateGender()))
+	for i := 0; i < 100; i++ {
+		gender := generateGender();
+		var exists_adress bool
+		var name string
+		var _ string
+		var exists_f bool
+		var exists_m bool
+		var adress string
+		adress = generateAdress(adresses)
+		_, exists_adress = now_adresses[adress]
+		for exists_adress {
+			adress = generateAdress(adresses)
+			_, exists_adress = now_adresses[adress]
+		}
+		now_adresses[adress] = 1
+		if(gender == "f" || gender == "female"){
+			name = female_names[rand.Intn(len(female_names))] + " " + surname_initials[rand.Intn(len(surname_initials))] + "."
+			_, exists_f = now_names[name]
+			for exists_f {
+				name = female_names[rand.Intn(len(female_names))] + " " + surname_initials[rand.Intn(len(surname_initials))] + "."
+				_, exists_f = now_names[name]
+			}
+			now_names[name] = 1
+		}else{
+			name = male_names[rand.Intn(len(male_names))] + " " + surname_initials[rand.Intn(len(surname_initials))] + "."
+			_, exists_f = now_names[name]
+			for exists_m {
+				name = male_names[rand.Intn(len(male_names))] + " " + surname_initials[rand.Intn(len(surname_initials))] + "."
+				_, exists_f = now_names[name]
+			}
+			now_names[name] = 1
+		}
+		result = fmt.Sprintf(result + "(%v), ", fmt.Sprintf("%v, %v, %v, %v", name, generateAge(), adress, gender))
 	}
 
 	fmt.Println(result)
 }
+
+//Generating goodTypes
+
